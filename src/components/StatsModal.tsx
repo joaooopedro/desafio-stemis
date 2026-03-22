@@ -41,10 +41,10 @@ const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
 
     if (nodes.length === 0) {
         return (
-            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-                <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-2xl p-6 border border-slate-700">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-xl font-semibold text-slate-100">Relatório de Desempenho</h2>
+            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-3 sm:p-4">
+                <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-sm sm:max-w-2xl sm:p-6 p-4 border border-slate-700">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                        <h2 className="text-base sm:text-xl font-semibold text-slate-100">Relatório</h2>
                         <button
                             onClick={onClose}
                             className="p-1 hover:bg-slate-700 rounded transition-colors text-slate-400"
@@ -52,9 +52,9 @@ const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                             <X size={20} />
                         </button>
                     </div>
-                    <div className="text-center py-12">
-                        <p className="text-slate-400 text-lg">Nenhuma etapa adicionada ainda.</p>
-                        <p className="text-slate-500 mt-2">Adicione etapas ao seu funil para ver estatísticas.</p>
+                    <div className="text-center py-8 sm:py-12">
+                        <p className="text-slate-400 text-base sm:text-lg">Nenhuma etapa adicionada.</p>
+                        <p className="text-slate-500 mt-2 text-sm">Adicione etapas ao seu funil.</p>
                     </div>
                 </div>
             </div>
@@ -62,12 +62,12 @@ const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-4xl my-8 animate-slide-in border border-slate-700">
-                <div className="flex items-center justify-between p-6 border-b border-slate-700 bg-slate-900">
-                    <div>
-                        <h2 className="text-xl font-semibold text-slate-100">Relatório de Desempenho</h2>
-                        <p className="text-slate-400 text-sm mt-1">Análise do seu funil de campanhas</p>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
+            <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-sm sm:max-w-4xl my-4 sm:my-8 animate-slide-in border border-slate-700">
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-700 bg-slate-900 flex-col sm:flex-row gap-2 sm:gap-0">
+                    <div className="text-center sm:text-left flex-1">
+                        <h2 className="text-base sm:text-xl font-semibold text-slate-100">Relatório de Desempenho</h2>
+                        <p className="text-slate-400 text-xs sm:text-sm mt-1">Análise do seu funil</p>
                     </div>
                     <button
                         onClick={onClose}
@@ -77,7 +77,7 @@ const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                     </button>
                 </div>
 
-                <div className="p-6 space-y-8">
+                <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div className="bg-slate-700 p-4 rounded-lg border border-slate-600">
                             <div className="flex items-center gap-3 mb-2">

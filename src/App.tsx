@@ -53,13 +53,36 @@ function App() {
     };
   }, [selectedNodeId, handleDeleteNode]);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <ReactFlowProvider>
       <div className="h-screen flex flex-col bg-slate-950">
-        <Header onShowStats={() => setShowStatsModal(true)} />
+        <Header onShowStats={() => setShowStatsModal(true)} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar onAddNode={handleAddNode} />
+        <div className="flex flex-1 overflow-hidden relative">
+          {/* Sidebar Desktop */}
+          <div className="hidden sm:block">
+            <Sidebar onAddNode={handleAddNode} />
+          </div>
+
+          {/* Sidebar Mobile (Drawer) */}
+          {sidebarOpen && (
+            <>
+              {/* Overlay */}
+              <div
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
+              {/* Mobile Sidebar */}
+              <div className="fixed left-0 top-16 bottom-0 w-64 bg-slate-900 border-r border-slate-700 z-50 sm:hidden shadow-2xl">
+                <Sidebar onAddNode={(stage, pos) => {
+                  handleAddNode(stage, pos);
+                  setSidebarOpen(false);
+                }} />
+              </div>
+            </>
+          )}
 
           <div className="flex-1 bg-slate-800">
             <FunnelFlow onNodeDelete={handleDeleteNode} onNodeEdit={handleEditNode} />

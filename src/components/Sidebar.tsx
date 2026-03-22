@@ -66,13 +66,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onAddNode }) => {
     };
 
     return (
-        <div className="w-72 bg-slate-900 text-slate-100 shadow-2xl border-r border-slate-700 flex flex-col h-screen">
-            <div className="p-6 border-b border-slate-700 bg-slate-950">
-                <h2 className="text-lg font-semibold mb-2">Construtor de Funis</h2>
-                <p className="text-xs text-slate-400">Clique para adicionar etapas</p>
+        <div className="w-full bg-slate-900 text-slate-100 shadow-2xl border-r border-slate-700 flex flex-col h-screen">
+            <div className="p-4 sm:p-6 border-b border-slate-700 bg-slate-950">
+                <h2 className="text-base sm:text-lg font-semibold mb-2">Construtor de Funis</h2>
+                <p className="text-xs text-slate-400">Toque para adicionar</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2">
                 <div className="mb-4">
                     <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
                         Etapas do Funil
@@ -90,8 +90,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onAddNode }) => {
                                 >
                                     <Icon size={18} className="text-slate-400 group-hover:text-slate-200 flex-shrink-0" />
                                     <div className="flex-1 text-left min-w-0">
-                                        <div className="font-medium text-sm text-slate-100">{stage.label}</div>
-                                        <div className="text-xs text-slate-500">{stage.description}</div>
+                                        <div className="font-medium text-xs sm:text-sm text-slate-100">{stage.label}</div>
+                                        <div className="text-xs text-slate-500 hidden sm:block">{stage.description}</div>
                                     </div>
                                     <Plus size={16} className="text-slate-400 group-hover:text-slate-200 flex-shrink-0" />
                                 </button>

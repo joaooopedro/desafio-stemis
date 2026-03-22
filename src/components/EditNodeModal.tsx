@@ -43,10 +43,10 @@ const EditNodeModal: React.FC<EditNodeModalProps> = ({ node, onClose, onSave }) 
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-            <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-md animate-slide-in border border-slate-700">
-                <div className="flex items-center justify-between p-6 border-b border-slate-700">
-                    <h2 className="text-lg font-semibold text-slate-100">Editar {node.label}</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-3 sm:p-4">
+            <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-sm sm:max-w-md animate-slide-in border border-slate-700 max-h-[90vh] overflow-y-auto">
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-700">
+                    <h2 className="text-base sm:text-lg font-semibold text-slate-100 truncate pr-2">Editar {node.label}</h2>
                     <button
                         onClick={onClose}
                         className="p-1 hover:bg-slate-700 rounded transition-colors text-slate-400"
@@ -55,38 +55,38 @@ const EditNodeModal: React.FC<EditNodeModalProps> = ({ node, onClose, onSave }) 
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">
                             Nome da Etapa
                         </label>
                         <input
                             type="text"
                             value={formData.label}
                             onChange={(e) => handleChange('label', e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-600 bg-slate-700 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors placeholder-slate-500"
-                            placeholder="Ex: Anúncio Google Ads"
+                            className="w-full px-3 sm:px-4 py-2 text-sm border border-slate-600 bg-slate-700 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors placeholder-slate-500"
+                            placeholder="Ex: Google Ads"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">
                             Descrição (Opcional)
                         </label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => handleChange('description', e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-600 bg-slate-700 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none placeholder-slate-500"
+                            className="w-full px-3 sm:px-4 py-2 text-sm border border-slate-600 bg-slate-700 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none placeholder-slate-500"
                             rows={2}
                             placeholder="Descreva a etapa..."
                         />
                     </div>
 
-                    <div className="bg-slate-700 p-4 rounded-lg space-y-4 border border-slate-600">
-                        <h3 className="font-semibold text-slate-100 text-sm mb-3">Métricas</h3>
+                    <div className="bg-slate-700 p-3 sm:p-4 rounded-lg space-y-3 sm:space-y-4 border border-slate-600">
+                        <h3 className="font-semibold text-slate-100 text-xs sm:text-sm mb-3">Métricas</h3>
 
                         <div>
-                            <label className="block text-sm text-slate-300 mb-1">
+                            <label className="block text-xs sm:text-sm text-slate-300 mb-1">
                                 Visitantes: {formData.visitors.toLocaleString()}
                             </label>
                             <input
@@ -102,12 +102,12 @@ const EditNodeModal: React.FC<EditNodeModalProps> = ({ node, onClose, onSave }) 
                                 type="number"
                                 value={formData.visitors}
                                 onChange={(e) => handleChange('visitors', parseInt(e.target.value) || 0)}
-                                className="w-full mt-2 px-3 py-1 border border-slate-600 bg-slate-700 text-slate-100 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full mt-2 px-2 sm:px-3 py-1 text-xs sm:text-sm border border-slate-600 bg-slate-700 text-slate-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm text-slate-300 mb-1">
+                            <label className="block text-xs sm:text-sm text-slate-300 mb-1">
                                 Taxa de Conversão: {formData.conversionRate.toFixed(1)}%
                             </label>
                             <input
@@ -122,7 +122,7 @@ const EditNodeModal: React.FC<EditNodeModalProps> = ({ node, onClose, onSave }) 
                         </div>
 
                         <div>
-                            <label className="block text-sm text-slate-300 mb-1">
+                            <label className="block text-xs sm:text-sm text-slate-300 mb-1">
                                 Taxa de Rejeição: {formData.bounceRate.toFixed(1)}%
                             </label>
                             <input
@@ -137,7 +137,7 @@ const EditNodeModal: React.FC<EditNodeModalProps> = ({ node, onClose, onSave }) 
                         </div>
 
                         <div>
-                            <label className="block text-sm text-slate-300 mb-1">
+                            <label className="block text-xs sm:text-sm text-slate-300 mb-1">
                                 Tempo Médio: {formData.avgTimeOnPage}s
                             </label>
                             <input
@@ -152,19 +152,19 @@ const EditNodeModal: React.FC<EditNodeModalProps> = ({ node, onClose, onSave }) 
                         </div>
                     </div>
 
-                    <div className="flex gap-3 pt-4">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 px-4 py-2 border border-slate-600 bg-slate-700 text-slate-100 font-medium rounded-lg hover:bg-slate-600 transition-colors"
+                            className="w-full sm:flex-1 px-3 sm:px-4 py-2 text-sm border border-slate-600 bg-slate-700 text-slate-100 font-medium rounded-lg hover:bg-slate-600 transition-colors"
                         >
                             Cancelar
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                            className="w-full sm:flex-1 px-3 sm:px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
                         >
-                            Salvar Alterações
+                            Salvar
                         </button>
                     </div>
                 </form>

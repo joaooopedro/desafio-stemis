@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Download, Trash2, BarChart3 } from 'lucide-react';
+import { Download, Trash2, BarChart3, Menu } from 'lucide-react';
 import { useFunnelStore } from '../store/funnelStore';
 
 interface HeaderProps {
     onShowStats: () => void;
+    onToggleSidebar?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onShowStats }) => {
+const Header: React.FC<HeaderProps> = ({ onShowStats, onToggleSidebar }) => {
     const { projectName, updateProjectName, clearProject, nodes, edges, selectedNodeId, deleteNode } = useFunnelStore();
     const [isEditingName, setIsEditingName] = useState(false);
     const [tempName, setTempName] = useState(projectName);
@@ -45,15 +46,25 @@ const Header: React.FC<HeaderProps> = ({ onShowStats }) => {
 
     return (
         <header className="bg-slate-950 text-slate-100 shadow-lg border-b border-slate-700">
-            <div className="px-6 py-4 flex items-center justify-between gap-4">
-                <div className="flex-1">
+            <div className="px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
+                <div className="flex gap-2 sm:gap-3 items-center">
+                    {/* Menu Mobile */}
+                    <button
+                        onClick={onToggleSidebar}
+                        className="sm:hidden p-2 hover:bg-slate-800 rounded transition-colors text-slate-100"
+                    >
+                        <Menu size={20} />
+                    </button>
+                </div>
+
+                <div className="flex-1 min-w-0">
                     {isEditingName ? (
                         <div className="flex gap-2">
                             <input
                                 type="text"
                                 value={tempName}
                                 onChange={(e) => setTempName(e.target.value)}
-                                className="px-3 py-1 rounded text-slate-900 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"
+                                className="px-2 sm:px-3 py-1 rounded text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100 w-full"
                                 autoFocus
                                 onBlur={handleSaveName}
                                 onKeyPress={(e) => e.key === 'Enter' && handleSaveName()}
@@ -62,34 +73,34 @@ const Header: React.FC<HeaderProps> = ({ onShowStats }) => {
                     ) : (
                         <div
                             onClick={() => setIsEditingName(true)}
-                            className="cursor-pointer group"
+                            className="cursor-pointer group min-w-0"
                         >
-                            <h1 className="text-xl font-semibold group-hover:text-slate-300 transition-colors">
+                            <h1 className="text-lg sm:text-xl font-semibold group-hover:text-slate-300 transition-colors truncate">
                                 {projectName}
                             </h1>
-                            <p className="text-slate-400 text-xs">Clique para editar o nome</p>
+                            <p className="text-slate-400 text-xs hidden sm:block">Clique para editar</p>
                         </div>
                     )}
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 sm:gap-3 flex-wrap justify-end">
                     {selectedNodeId && (
                         <button
                             onClick={() => {
                                 console.log('Delete button clicked, selectedNodeId:', selectedNodeId);
                                 deleteNode(selectedNodeId);
                             }}
-                            className="flex items-center gap-2 px-3 py-2 bg-yellow-600 hover:bg-yellow-500 rounded transition-colors font-medium text-xs text-white border border-yellow-700 hover:border-yellow-600"
+                            className="p-2 sm:px-3 sm:py-2 bg-yellow-600 hover:bg-yellow-500 rounded transition-colors text-xs font-medium text-white border border-yellow-700 hover:border-yellow-600 flex items-center gap-1 sm:gap-2"
                             title="Apagar node selecionado"
                         >
                             <Trash2 size={16} />
-                            <span className="hidden sm:inline">Apagar Selecionado</span>
+                            <span className="hidden sm:inline">Apagar</span>
                         </button>
                     )}
                     <button
                         onClick={onShowStats}
-                        className="flex items-center gap-2 px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded transition-colors font-medium text-xs text-slate-100 border border-slate-600 hover:border-slate-500"
-                        title="Ver estatísticas"
+                        className="p-2 sm:px-3 sm:py-2 bg-slate-700 hover:bg-slate-600 rounded transition-colors text-xs font-medium text-slate-100 border border-slate-600 hover:border-slate-500 flex items-center gap-1 sm:gap-2"
+                        title="Estatísticas"
                     >
                         <BarChart3 size={16} />
                         <span className="hidden sm:inline">Relatório</span>
@@ -97,8 +108,8 @@ const Header: React.FC<HeaderProps> = ({ onShowStats }) => {
 
                     <button
                         onClick={handleExport}
-                        className="flex items-center gap-2 px-3 py-2 bg-blue-700 hover:bg-blue-600 rounded transition-colors font-medium text-xs text-white border border-blue-600 hover:border-blue-500"
-                        title="Baixar projeto"
+                        className="p-2 sm:px-3 sm:py-2 bg-blue-700 hover:bg-blue-600 rounded transition-colors text-xs font-medium text-white border border-blue-600 hover:border-blue-500 flex items-center gap-1 sm:gap-2"
+                        title="Exportar"
                     >
                         <Download size={16} />
                         <span className="hidden sm:inline">Exportar</span>
@@ -106,8 +117,8 @@ const Header: React.FC<HeaderProps> = ({ onShowStats }) => {
 
                     <button
                         onClick={handleClear}
-                        className="flex items-center gap-2 px-3 py-2 bg-red-700 hover:bg-red-600 rounded transition-colors font-medium text-xs text-white border border-red-600 hover:border-red-500"
-                        title="Limpar projeto"
+                        className="p-2 sm:px-3 sm:py-2 bg-red-700 hover:bg-red-600 rounded transition-colors text-xs font-medium text-white border border-red-600 hover:border-red-500 flex items-center gap-1 sm:gap-2"
+                        title="Limpar"
                     >
                         <Trash2 size={16} />
                         <span className="hidden sm:inline">Limpar</span>
@@ -115,7 +126,7 @@ const Header: React.FC<HeaderProps> = ({ onShowStats }) => {
                 </div>
             </div>
 
-            <div className="px-6 py-3 bg-slate-900 text-slate-300 text-sm flex gap-6 flex-wrap border-t border-slate-700">
+            <div className="px-3 sm:px-6 py-2 sm:py-3 bg-slate-900 text-slate-300 text-xs sm:text-sm flex gap-3 sm:gap-6 flex-wrap border-t border-slate-700">
                 <div className="flex items-center gap-2">
                     <span className="text-slate-400">Etapas:</span>
                     <span className="font-semibold text-slate-100">{nodes.length}</span>
