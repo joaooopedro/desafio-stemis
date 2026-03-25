@@ -28,11 +28,12 @@ interface FunnelStore {
 }
 
 export const useFunnelStore = create<FunnelStore>((set) => {
-    // Load from localStorage on initialization
+    // localStorage: carrega dados salvos ou usa o padrão
     const savedData = localStorage.getItem('funnelData');
     const initialData = savedData ? JSON.parse(savedData) : null;
 
-    // Default funnel stages if no data saved
+    // dados iniciais: exemplo com 6 etapas do funil de e-commerce
+    // começa assim para o usuário ver o projeto funcionando
     const defaultNodes: FunnelNode[] = [
         {
             id: 'node-default-1',
@@ -141,12 +142,13 @@ export const useFunnelStore = create<FunnelStore>((set) => {
     ];
 
     return {
-        // Initial state
+        // estado inicial
         nodes: initialData?.nodes || defaultNodes,
         edges: initialData?.edges || defaultEdges,
         selectedNodeId: null,
         projectName: initialData?.projectName || 'Funil de E-commerce',
 
+        // adicionar nó: cria novo node com ID único (timestamp) e salva no localStorage
         addNode: (stage, position) => {
             const id = `node-${Date.now()}`;
             const newNode: FunnelNode = {
@@ -170,6 +172,7 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             });
         },
 
+        // atualizar nó: modifica dados de um nó existente (label, cor, métricas)
         updateNode: (id, updates) => {
             set((state) => {
                 const newNodes = state.nodes.map((node) =>
@@ -191,17 +194,18 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             });
         },
 
+        // deletar nó: remove node e todas as edges (linhas) conectadas
         deleteNode: (id) => {
-            console.log('🗑️ deleteNode called with id:', id);
+            console.log('deleteNode chamado com id:', id);
             set((state) => {
-                console.log('Before delete - nodes count:', state.nodes.length, 'edges count:', state.edges.length);
+                console.log('antes do delete - nós:', state.nodes.length, 'edges:', state.edges.length);
                 const newNodes = state.nodes.filter((node) => node.id !== id);
                 const newEdges = state.edges.filter(
                     (edge) => edge.source !== id && edge.target !== id
                 );
-                console.log('After delete - nodes count:', newNodes.length, 'edges count:', newEdges.length);
+                console.log('depois do delete - nós:', newNodes.length, 'edges:', newEdges.length);
 
-                // Clear selection if the deleted node was selected
+                // limpa seleção se o nó deletado estava selecionado
                 const newSelectedNodeId = state.selectedNodeId === id ? null : state.selectedNodeId;
 
                 const newState = {
@@ -210,12 +214,13 @@ export const useFunnelStore = create<FunnelStore>((set) => {
                     selectedNodeId: newSelectedNodeId,
                     projectName: state.projectName,
                 };
-                console.log('Saving to localStorage, newState nodes:', newState.nodes.length);
+                console.log('salvando no localStorage, nós:', newState.nodes.length);
                 saveToLocalStorage(newState);
                 return newState;
             });
         },
 
+        // selecionar nó: marca qual nó está selecionado (para edição)
         setSelectedNodeId: (id) => {
             set((state) => ({
                 ...state,
@@ -223,10 +228,11 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             }));
         },
 
+        // adicionar edge: conecta dois nós (previne duplicadas)
         addEdge: (source, target) => {
             const edgeId = `edge-${source}-${target}`;
             set((state) => {
-                // Prevent duplicate edges
+                // previne edges duplicadas
                 if (state.edges.some((e) => e.source === source && e.target === target)) {
                     return state;
                 }
@@ -246,6 +252,7 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             });
         },
 
+        // deletar edge: remove uma conexão entre nós
         deleteEdge: (edgeId) => {
             set((state) => {
                 const newEdges = state.edges.filter((e) => e.id !== edgeId);
@@ -260,6 +267,7 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             });
         },
 
+        // nomear projeto: edita o nome exibido no topo
         updateProjectName: (name) => {
             set((state) => {
                 const newState = {
@@ -273,6 +281,7 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             });
         },
 
+        // limpar projeto: reseta tudo e remove dados salvos
         clearProject: () => {
             set(() => {
                 localStorage.removeItem('funnelData');
@@ -285,6 +294,7 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             });
         },
 
+        // carregar projeto: importa dados salvos anteriormente
         loadProject: (project) => {
             set(() => ({
                 nodes: project.nodes,
@@ -294,6 +304,7 @@ export const useFunnelStore = create<FunnelStore>((set) => {
             }));
         },
 
+        // mover nó: atualiza posição quando usuário arrasta no canvas
         updateNodePosition: (id, position) => {
             set((state) => {
                 const newNodes = state.nodes.map((node) =>

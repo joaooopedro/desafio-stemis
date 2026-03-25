@@ -10,38 +10,45 @@ import type { FunnelStage } from './types';
 import './index.css';
 
 function App() {
+  // estrutura principal: recupera estado global da store (Zustand)
   const { nodes, addNode, deleteNode, updateNode, selectedNodeId } = useFunnelStore();
+  // modais: controla exibição dos formulários de edição e estatísticas
   const [showEditModal, setShowEditModal] = useState(false);
   const [showStatsModal, setShowStatsModal] = useState(false);
 
+  // seleção: encontra o nó selecionado para edição
   const selectedNode = nodes.find((node) => node.id === selectedNodeId);
 
+  // adicionar: callback para adicionar novo nó ao funil
   const handleAddNode = useCallback((stage: FunnelStage, position: { x: number; y: number }) => {
     addNode(stage, position);
   }, [addNode]);
 
+  // deletar: remove nó selecionado e fecha o modal
   const handleDeleteNode = useCallback((id: string) => {
-    console.log('📝 App.handleDeleteNode called with id:', id);
+    console.log('App.handleDeleteNode called with id:', id);
     setShowEditModal(false);
     deleteNode(id);
   }, [deleteNode]);
 
+  // editar: abre modal para edição
   const handleEditNode = useCallback(() => {
     setShowEditModal(true);
   }, []);
 
+  // salvar: persiste alterações do nó na store
   const handleSaveNodeEdit = (updates: Partial<FunnelStage>) => {
     if (selectedNodeId) {
       updateNode(selectedNodeId, updates);
     }
   };
 
-  // Handle Delete key press to delete selected node
+  // tecla delete: permite deletar nó pressionando a tecla Delete
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      // Only trigger if Delete key is pressed and a node is selected
+      // so dispara se a tecla Delete for pressionada e um nó estiver selecionado
       if (event.key === 'Delete' && selectedNodeId) {
-        console.log('⌨️ Delete key pressed, deleting node:', selectedNodeId);
+        console.log('Delete key pressed, deleting node:', selectedNodeId);
         event.preventDefault();
         handleDeleteNode(selectedNodeId);
       }
@@ -53,6 +60,7 @@ function App() {
     };
   }, [selectedNodeId, handleDeleteNode]);
 
+  // sidebar: toggle para abrir/fechar sidebar em mobile
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
